@@ -6,6 +6,63 @@
 <title>ロストシティ 初心者攻略ガイド</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 <style>
+  /* 言語切り替えバー */
+  .lang-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    background: rgba(5,8,16,0.98);
+    border-bottom: 1px solid rgba(0,180,216,0.2);
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 6px 16px;
+  }
+  .lang-btn {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: #8899b0;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .lang-btn.active {
+    background: rgba(0,180,216,0.2);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .lang-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  /* 翻訳中オーバーレイ */
+  .translate-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10,14,26,0.85);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .translate-overlay.show { display: flex; }
+  .translate-spinner {
+    width: 40px; height: 40px;
+    border: 3px solid rgba(0,180,216,0.2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .translate-msg { color: var(--accent); font-size: 14px; font-weight: 700; }
+  /* ヘッダーにlang-barの分だけ余白 */
+  body { padding-top: 36px; }
   :root {
     --bg: #0a0e1a;
     --bg2: #0d1425;
@@ -477,6 +534,19 @@
 </head>
 <body>
 
+<!-- 言語切り替えバー -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="switchLang('ja', this)">🇯🇵 日本語</button>
+  <button class="lang-btn" onclick="switchLang('zh', this)">🇹🇼 繁體中文</button>
+  <button class="lang-btn" onclick="switchLang('tr', this)">🇹🇷 Türkçe</button>
+</div>
+
+<!-- 翻訳中オーバーレイ -->
+<div class="translate-overlay" id="translateOverlay">
+  <div class="translate-spinner"></div>
+  <div class="translate-msg" id="translateMsg">翻訳中...</div>
+</div>
+
 <header>
   <div class="header-badge">Puzzles & Conquest</div>
   <h1>
@@ -493,9 +563,13 @@
     <button class="nav-btn" onclick="showSection('daily', this)">☀️ 1日の行動</button>
     <button class="nav-btn" onclick="showSection('temp', this)">🌡️ 温暖値</button>
     <button class="nav-btn" onclick="showSection('ship', this)">✈️ 飛行船</button>
-    <button class="nav-btn" onclick="showSection('base', this)">🏰 拠点</button>
+    <button class="nav-btn" onclick="showSection('base', this)">🏰 拠点・領土</button>
+    <button class="nav-btn" onclick="showSection('collect', this)">⚔️ 採集・戦闘</button>
     <button class="nav-btn" onclick="showSection('daiji', this)">📜 大事記</button>
     <button class="nav-btn" onclick="showSection('quest', this)">🎯 クエスト</button>
+    <button class="nav-btn" onclick="showSection('tech', this)">🔬 技術</button>
+    <button class="nav-btn" onclick="showSection('shrine', this)">👼 英霊殿</button>
+    <button class="nav-btn" onclick="showSection('shop', this)">💰 交換ショップ</button>
   </div>
 </nav>
 
@@ -900,7 +974,292 @@
 
 
 
-  <!-- 大事記 -->
+  <!-- 採集・戦闘 -->
+  <section id="collect">
+    <div class="section-title">⚔️ 採集・戦闘</div>
+
+    <div class="alert alert-red">
+      <span class="alert-icon">⚠️</span>
+      <div>採集・訓練・戦闘はすべて<strong>ロストシティマップ内</strong>で行うこと。マップ外ではクエストポイントにカウントされない。</div>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">🌾 Lv.8以降の採集</div>
+    <div class="panel accent-blue">
+      <div class="panel-title">採集レベルと資源量</div>
+      <div class="step-desc" style="margin-bottom:12px;">大事記が進むにつれて高レベルの採集場が解放される。レベルが高いほど採集量が多い。</div>
+      <table class="data-table">
+        <thead><tr><th>採集Lv</th><th>食料・木材</th><th>鉄鉱</th><th>金貨</th><th>解放条件（大事記）</th></tr></thead>
+        <tbody>
+          <tr><td>8</td><td>520,000</td><td>104,000</td><td>26,000</td><td>1通過後</td></tr>
+          <tr><td>9</td><td>640,000</td><td>128,000</td><td>32,000</td><td>3通過後</td></tr>
+          <tr><td>10</td><td>760,000</td><td>152,000</td><td>38,000</td><td>5通過後</td></tr>
+          <tr><td>11</td><td>880,000</td><td>176,000</td><td>44,000</td><td>7通過後</td></tr>
+          <tr><td>12</td><td>1,000,000</td><td>200,000</td><td>50,000</td><td>9通過後</td></tr>
+        </tbody>
+      </table>
+      <div class="alert alert-gold" style="margin-top:12px;margin-bottom:0;">
+        <span class="alert-icon">💡</span>
+        <div>大事記は<strong>クリアしなくても通過するだけで解放される</strong>。安全地帯周辺はLv.7〜9までしか出現しないため、Lv.10以上を採集するには遠くへ移動が必要。<strong>庇いの盾を切らさないように！</strong></div>
+      </div>
+    </div>
+
+    <div class="panel accent-gold">
+      <div class="panel-title">💎 ダイヤ採集</div>
+      <div class="step-desc" style="margin-bottom:12px;">エンパイアウォーと同様にダイヤ採集場（Lv.1〜5）が出現する。エンパイアウォーと違い<strong>採集量に制限なし</strong>。</div>
+      <table class="data-table">
+        <thead><tr><th>Lv</th><th>ダイヤ量</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>10</td></tr>
+          <tr><td>2</td><td>50</td></tr>
+          <tr><td>3</td><td>100</td></tr>
+          <tr><td>4</td><td>200</td></tr>
+          <tr><td>5</td><td>500</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">👹 暴走魔力スポット</div>
+    <div class="panel accent-red">
+      <div class="panel-title">暴走魔力スポットとは</div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">!</div>
+          <div class="step-content">
+            <div class="step-label">飛行船と英雄のステータスのみ使用可能</div>
+            <div class="step-desc">通常の兵士は使えない。必要スタミナは1体あたり4。Lv.1から順番に挑戦する必要がある</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">!</div>
+          <div class="step-content">
+            <div class="step-label">撃破すると失われた工程書などを獲得</div>
+            <div class="step-desc">ロストシティ技術の研究に必要な失われた工程書が手に入る</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">💀 狂暴地獄要塞</div>
+    <div class="panel accent-purple">
+      <div class="panel-title">狂暴地獄要塞とは</div>
+      <div class="step-desc" style="margin-bottom:12px;">最大Lv.70まで挑戦可能。通常の兵士が使え、さらに<strong>飛行船のステータスも上乗せ</strong>されるので強力。撃破するとミスリル原石・石炭・薪などを獲得できる。</div>
+      <div class="alert alert-blue" style="margin-bottom:0;">
+        <span class="alert-icon">💡</span>
+        <div>集結で攻撃すると石炭10個・薪5個が入手できる。温暖値管理のためにも<strong>毎日集結するのがおすすめ</strong>。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ロストシティ技術 -->
+  <section id="tech">
+    <div class="section-title">🔬 ロストシティ技術</div>
+
+    <div class="alert alert-blue">
+      <span class="alert-icon">ℹ️</span>
+      <div>城の右側に<strong>遠征指揮部</strong>を建造するとロストシティ技術を研究できる。研究には<strong>失われた工程書</strong>が必要。前の技術を全て研究しないと次に進めない。</div>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">🌡️ 温暖値に関係する技術（優先度高）</div>
+    <div class="panel accent-gold">
+      <div class="panel-title">サポート技術（温暖値関連）</div>
+      <table class="data-table">
+        <thead><tr><th>技術名</th><th>必要工程書（5/5達成まで）</th><th>効果（5/5時）</th></tr></thead>
+        <tbody>
+          <tr><td>防寒 I</td><td>45,000</td><td>温暖値の減衰速度 -15%</td></tr>
+          <tr><td>防寒 II</td><td>75,000</td><td>温暖値の減衰速度 -15%</td></tr>
+          <tr><td>防寒 III</td><td>75,000</td><td>温暖値の減衰速度 -20%</td></tr>
+          <tr><td>薪倉庫</td><td>45,000</td><td>盟友から受け取れる薪の数 +50</td></tr>
+          <tr><td>暖炉の管理人</td><td>5,000</td><td>オフライン中に石炭を自動使用</td></tr>
+        </tbody>
+      </table>
+      <div class="alert alert-gold" style="margin-top:12px;margin-bottom:0;">
+        <span class="alert-icon">⭐</span>
+        <div><strong>暖炉の管理人</strong>は必要工程書が少なく効果が大きい。オフライン中も石炭を自動で使ってくれるので早めに研究しよう。</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">📦 その他のサポート技術</div>
+    <div class="panel accent-blue">
+      <div class="panel-title">サポート技術（その他）</div>
+      <table class="data-table">
+        <thead><tr><th>技術名</th><th>必要工程書</th><th>効果（5/5時）</th></tr></thead>
+        <tbody>
+          <tr><td>魔能石回復速度アップ</td><td>15,000</td><td>+50%</td></tr>
+          <tr><td>魔能石上限アップ I</td><td>45,000</td><td>+8</td></tr>
+          <tr><td>魔能石上限アップ II</td><td>75,000</td><td>+10</td></tr>
+          <tr><td>復活の結晶上限アップ I〜III</td><td>各30,000〜120,000</td><td>各+10,000,000</td></tr>
+          <tr><td>復活の結晶自然産量アップ I〜III</td><td>各30,000〜120,000</td><td>各+100%</td></tr>
+          <tr><td>拠点のゴートレス銅貨生産量 I〜II</td><td>各45,000〜75,000</td><td>+500%</td></tr>
+          <tr><td>拠点のミスリル原石生産量 II</td><td>75,000</td><td>+1,000%</td></tr>
+          <tr><td>拠点の失われた工程書生産量 II</td><td>75,000</td><td>+1,000%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">⚔️ 戦闘技術</div>
+    <div class="panel accent-red">
+      <div class="panel-title">戦闘技術一覧（主要なもの）</div>
+      <table class="data-table">
+        <thead><tr><th>技術名</th><th>必要工程書</th><th>効果（5/5時）</th></tr></thead>
+        <tbody>
+          <tr><td>ロストシティ部隊ATK</td><td>45,000</td><td>+300%</td></tr>
+          <tr><td>ロストシティ部隊DEF</td><td>45,000</td><td>+300%</td></tr>
+          <tr><td>ロストシティ部隊HP</td><td>45,000</td><td>+300%</td></tr>
+          <tr><td>ロストシティ歩兵/弓兵/騎兵 ATK</td><td>各45,000</td><td>各+500%</td></tr>
+          <tr><td>ロストシティ歩兵/弓兵/騎兵 DEF</td><td>各45,000</td><td>各+500%</td></tr>
+          <tr><td>ロストシティ歩兵/弓兵/騎兵 HP</td><td>各45,000</td><td>各+500%</td></tr>
+          <tr><td>ロストシティ拠点部隊ATK/DEF/HP</td><td>各75,000</td><td>各+2,000%</td></tr>
+          <tr><td>飛行船部隊規模（×2）</td><td>各120,000</td><td>各+100,000</td></tr>
+          <tr><td>ロストシティ部隊ダメージ軽減</td><td>120,000</td><td>+10%</td></tr>
+          <tr><td>ロストシティ部隊ダメージ増加</td><td>120,000</td><td>+10%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 英霊殿 -->
+  <section id="shrine">
+    <div class="section-title">👼 英霊殿</div>
+
+    <div class="alert alert-red">
+      <span class="alert-icon">⚠️</span>
+      <div>拠点の戦闘や安全地帯外からの城攻撃で負傷・戦死した兵士は<strong>全て英霊殿に送られる</strong>。回復には<strong>復活の結晶</strong>が必要。</div>
+    </div>
+
+    <div class="panel accent-blue">
+      <div class="panel-title">復活の結晶の入手方法</div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-label">英霊殿が自動生産（5,000/分）</div>
+            <div class="step-desc">大事記が進むにつれて生産速度が上がる。上限（最大20,000,000）に達すると生産ストップ</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-label">デイリークエストのポイント報酬</div>
+            <div class="step-desc">デイリーポイントに応じて最大400,000の結晶を獲得できる</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-label">ダイヤで直接回復も可能</div>
+            <div class="step-desc">急ぎの場合はダイヤを使って兵士を直接復活できる</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel accent-gold">
+      <div class="panel-title">兵士Tごとの必要結晶数（1体あたり）</div>
+      <table class="data-table">
+        <thead><tr><th>兵士T</th><th>必要結晶数</th><th>兵士T</th><th>必要結晶数</th></tr></thead>
+        <tbody>
+          <tr><td>T1</td><td>4</td><td>T8</td><td>18</td></tr>
+          <tr><td>T2</td><td>6</td><td>T9</td><td>20</td></tr>
+          <tr><td>T3</td><td>8</td><td>T10</td><td>24</td></tr>
+          <tr><td>T4</td><td>10</td><td>T11</td><td>32</td></tr>
+          <tr><td>T5</td><td>12</td><td>T12</td><td>40</td></tr>
+          <tr><td>T6</td><td>14</td><td>T13</td><td>50</td></tr>
+          <tr><td>T7</td><td>16</td><td>T14</td><td>60</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel accent-green">
+      <div class="panel-title">無料回復・イベント終了時のルール</div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">🗓️</div>
+          <div class="step-content">
+            <div class="step-label">毎週金曜 09:00（UTC金曜 00:00）</div>
+            <div class="step-desc">英霊殿内の兵士の<strong>20%が無料で即時回復</strong>される</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">🔚</div>
+          <div class="step-content">
+            <div class="step-label">イベント終了後24時間で英霊殿が閉鎖</div>
+            <div class="step-desc">未復活の兵士の<strong>90%は自動復活、10%は消滅</strong>する。無理な戦闘は避けよう</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel accent-blue">
+      <div class="panel-title">📊 デイリーポイントと獲得できる復活の結晶</div>
+      <table class="data-table">
+        <thead><tr><th>デイリーポイント</th><th>獲得できる結晶</th></tr></thead>
+        <tbody>
+          <tr><td>40</td><td>50,000</td></tr>
+          <tr><td>60</td><td>100,000</td></tr>
+          <tr><td>80</td><td>150,000</td></tr>
+          <tr><td>100</td><td>200,000</td></tr>
+          <tr><td>120</td><td>250,000</td></tr>
+          <tr><td>140</td><td>300,000</td></tr>
+          <tr><td>160</td><td>350,000</td></tr>
+          <tr><td>180</td><td>400,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 交換ショップ -->
+  <section id="shop">
+    <div class="section-title">💰 交換ショップ</div>
+
+    <div class="alert alert-blue">
+      <span class="alert-icon">ℹ️</span>
+      <div>決算後に交換ショップが開放される。<strong>ゴートレス銀貨</strong>と<strong>ゴートレス銅貨</strong>の2種類のコインで交換できる。</div>
+    </div>
+
+    <div class="alert alert-red">
+      <span class="alert-icon">⚠️</span>
+      <div><strong>ゴートレス銀貨はイベント終了後に1枚10ダイヤに変換、銅貨は1枚1金貨に変換</strong>される。使い切れる分だけ計画的に使おう。</div>
+    </div>
+
+    <div class="panel accent-gold">
+      <div class="panel-title">💴 銅貨ショップ（誰でも購入可）</div>
+      <table class="data-table">
+        <thead><tr><th>アイテム</th><th>必要銅貨</th><th>上限</th></tr></thead>
+        <tbody>
+          <tr><td>失われた聖物の箱×1</td><td>160,000</td><td>5</td></tr>
+          <tr><td>星5英雄の汎用欠片×1</td><td>10,000</td><td>50</td></tr>
+          <tr><td>霊石選択宝箱×1</td><td>900</td><td>300</td></tr>
+          <tr><td>星8選択宝箱×1</td><td>300</td><td>1,000</td></tr>
+          <tr><td>聖物の水晶×20</td><td>3,500</td><td>500</td></tr>
+          <tr><td>聖物精製液×1</td><td>250</td><td>2,000</td></tr>
+          <tr><td>錬金術師の手札×1</td><td>25</td><td>10,000</td></tr>
+          <tr><td>ブースト（60分間）×1</td><td>250</td><td>10,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel accent-blue">
+      <div class="panel-title">🥈 銀貨ショップ</div>
+      <table class="data-table">
+        <thead><tr><th>アイテム</th><th>必要銀貨</th><th>条件</th><th>上限</th></tr></thead>
+        <tbody>
+          <tr><td>ゴートレス（永久城スキン）</td><td>20,000</td><td>帝国のみ</td><td>1</td></tr>
+          <tr><td>ゴートレス（永久アイコンフレーム）</td><td>10,000</td><td>帝国・公国</td><td>1</td></tr>
+          <tr><td>特殊な契約ルーン×1</td><td>500</td><td>帝国のみ</td><td>20</td></tr>
+          <tr><td>特殊な契約ルーン×1</td><td>500</td><td>帝国・公国</td><td>10</td></tr>
+          <tr><td>失われた聖物の箱×1</td><td>3,000</td><td>誰でも</td><td>10</td></tr>
+          <tr><td>特殊な契約ルーン×1</td><td>1,000</td><td>誰でも</td><td>40</td></tr>
+          <tr><td>ロストシティ限定募集コイン×1</td><td>300</td><td>誰でも</td><td>100</td></tr>
+          <tr><td>発展設計図の選択宝箱×1</td><td>10</td><td>誰でも</td><td>1,000</td></tr>
+          <tr><td>ブースト（60分間）×1</td><td>10</td><td>誰でも</td><td>1,000</td></tr>
+        </tbody>
+      </table>
+      <div class="alert alert-gold" style="margin-top:12px;margin-bottom:0;">
+        <span class="alert-icon">👑</span>
+        <div>城スキンやアイコンフレームは<strong>帝国（勢力がLv.8都市を占領）</strong>または<strong>公国（Lv.7都市占領）</strong>でないと購入不可。</div>
+      </div>
+    </div>
+  </section>
   <section id="daiji">
     <div class="section-title">📜 大事記</div>
 
@@ -1109,6 +1468,141 @@
     el.classList.toggle('done');
     const box = el.querySelector('.check-box');
     box.textContent = el.classList.contains('done') ? '✓' : '';
+  }
+
+  // ===== 言語切り替え =====
+  let currentLang = 'ja';
+  const originalHTML = {}; // セクションごとの日本語HTMLを保存
+  const translatedHTML = {}; // 翻訳済みHTMLキャッシュ
+
+  const langNames = {
+    ja: '日本語',
+    zh: '翻訳中... / 翻譯中...',
+    tr: '翻訳中... / Çeviriliyor...'
+  };
+
+  const langPrompts = {
+    zh: '以下のHTMLを繁体字中国語（台湾）に翻訳してください。HTMLタグ・クラス名・属性値・絵文字・数字はそのまま保持し、テキスト内容のみ翻訳してください。コードブロックや説明文は不要で、翻訳済みHTMLのみ返してください。',
+    tr: 'Aşağıdaki HTML\'i Türkçeye çevirin. HTML etiketleri, sınıf adları, özellik değerleri, emojiler ve sayılar olduğu gibi korunmalı, yalnızca metin içeriği çevrilmelidir. Yalnızca çevrilmiş HTML\'i döndürün, açıklama eklemeyin.'
+  };
+
+  async function switchLang(lang, btn) {
+    if (lang === currentLang) return;
+
+    // ボタン状態更新
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    if (lang === 'ja') {
+      // 日本語に戻す
+      Object.keys(originalHTML).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = originalHTML[id];
+      });
+      document.documentElement.lang = 'ja';
+      currentLang = 'ja';
+      return;
+    }
+
+    // 翻訳対象セクションのIDリスト
+    const sectionIds = ['overview','schedule','daily','temp','ship','base','collect','daiji','quest','tech','shrine','shop'];
+    const mainEl = document.querySelector('main');
+
+    // オーバーレイ表示
+    const overlay = document.getElementById('translateOverlay');
+    const msg = document.getElementById('translateMsg');
+    overlay.classList.add('show');
+    document.querySelectorAll('.lang-btn').forEach(b => b.disabled = true);
+
+    try {
+      // 日本語HTMLを保存（初回のみ）
+      sectionIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !originalHTML[id]) {
+          originalHTML[id] = el.innerHTML;
+        }
+      });
+
+      // キャッシュがあれば使う
+      if (translatedHTML[lang]) {
+        sectionIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (el && translatedHTML[lang][id]) {
+            el.innerHTML = translatedHTML[lang][id];
+          }
+        });
+        document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'tr';
+        currentLang = lang;
+        overlay.classList.remove('show');
+        document.querySelectorAll('.lang-btn').forEach(b => b.disabled = false);
+        return;
+      }
+
+      translatedHTML[lang] = {};
+
+      // セクションを3つずつまとめて翻訳（API呼び出し回数を減らす）
+      const chunkSize = 3;
+      for (let i = 0; i < sectionIds.length; i += chunkSize) {
+        const chunk = sectionIds.slice(i, i + chunkSize);
+        msg.textContent = `翻訳中... (${i + 1}/${sectionIds.length})`;
+
+        // 各セクションをまとめたHTML
+        const combinedHTML = chunk.map(id => {
+          const el = document.getElementById(id);
+          return el ? `<div data-section-id="${id}">${originalHTML[id]}</div>` : '';
+        }).join('\n');
+
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 8000,
+            messages: [{
+              role: 'user',
+              content: langPrompts[lang] + '\n\n' + combinedHTML
+            }]
+          })
+        });
+
+        const data = await response.json();
+        const translatedText = data.content?.[0]?.text || '';
+
+        // data-section-id属性でセクションを分割
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(translatedText, 'text/html');
+        const sections = doc.querySelectorAll('[data-section-id]');
+
+        if (sections.length > 0) {
+          sections.forEach(section => {
+            const id = section.getAttribute('data-section-id');
+            translatedHTML[lang][id] = section.innerHTML;
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = section.innerHTML;
+          });
+        } else {
+          // パースできなかった場合はそのまま使う
+          chunk.forEach(id => {
+            translatedHTML[lang][id] = originalHTML[id];
+          });
+        }
+      }
+
+      document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'tr';
+      currentLang = lang;
+
+    } catch (err) {
+      console.error('翻訳エラー:', err);
+      msg.textContent = '翻訳に失敗しました。再試行してください。';
+      await new Promise(r => setTimeout(r, 2000));
+      // 日本語に戻す
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector('.lang-btn').classList.add('active');
+      currentLang = 'ja';
+    } finally {
+      overlay.classList.remove('show');
+      document.querySelectorAll('.lang-btn').forEach(b => b.disabled = false);
+    }
   }
 </script>
 
