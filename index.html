@@ -495,6 +495,7 @@
     <button class="nav-btn" onclick="showSection('ship', this)">✈️ 飛行船</button>
     <button class="nav-btn" onclick="showSection('base', this)">🏰 拠点</button>
     <button class="nav-btn" onclick="showSection('daiji', this)">📜 大事記</button>
+    <button class="nav-btn" onclick="showSection('quest', this)">🎯 クエスト</button>
   </div>
 </nav>
 
@@ -988,6 +989,96 @@
     <div class="alert alert-red">
       <span class="alert-icon">🚨</span>
       <div><strong>7日目以降は温暖値の下降速度が9/時間に加速！</strong><br>後半になるほど温暖値の管理が厳しくなる。防寒技術の研究・ペアとの連携をしっかり整えておこう。</div>
+    </div>
+  </section>
+
+  <!-- クエスト -->
+  <section id="quest">
+    <div class="section-title">🎯 クエスト</div>
+
+    <div class="alert alert-blue">
+      <span class="alert-icon">ℹ️</span>
+      <div>クエストは<strong>ウィークリークエスト（低難易度）</strong>と<strong>挑戦クエスト（高難易度）</strong>の2種類。クリアすると交換コインやレアアイテムが獲得できる。</div>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">📅 ウィークリークエスト</div>
+
+    <div class="alert alert-gold">
+      <span class="alert-icon">💡</span>
+      <div>第1週・第2週に分かれている。<strong>第2週でも第1週のクエストに挑戦可能。</strong>採集任務はどの資源でもポイントは同じ（食料・木材1＝鉄鉱5＝金貨20）</div>
+    </div>
+
+    <div class="panel accent-blue">
+      <div class="panel-title">第1週のクエスト</div>
+      <table class="data-table">
+        <thead><tr><th>クエスト</th><th>ポイント</th></tr></thead>
+        <tbody>
+          <tr><td>飛行船工場で造船（5回/10回）</td><td>各20</td></tr>
+          <tr><td>飛行船工場で造船（20回/50回）</td><td>各50</td></tr>
+          <tr><td>任意の都市の内城耐久値を減らす（200/500/1,000）</td><td>各20</td></tr>
+          <tr><td>狂暴地獄要塞を撃破（20回/50回/100回）</td><td>各20</td></tr>
+          <tr><td>デイリークエストポイントが合計（300/500/1,000）に達する</td><td>各20</td></tr>
+          <tr><td>採集（1,000万/2,000万ポイント分）</td><td>各20</td></tr>
+          <tr><td>採集（3,000万/5,000万/1億ポイント分）</td><td>各50</td></tr>
+          <tr><td>500万ポイントの兵士を訓練</td><td>20</td></tr>
+          <tr><td>キルポイントを獲得（500万/1,000万/2,000万）</td><td>各20</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel accent-blue">
+      <div class="panel-title">第2週のクエスト</div>
+      <table class="data-table">
+        <thead><tr><th>クエスト</th><th>ポイント</th></tr></thead>
+        <tbody>
+          <tr><td>飛行船工場で造船（5回/10回）</td><td>各20</td></tr>
+          <tr><td>飛行船工場で造船（20回/50回）</td><td>各50</td></tr>
+          <tr><td>任意の都市の内城耐久値を減らす（200/500/1,000）</td><td>各20</td></tr>
+          <tr><td>狂暴地獄要塞を20回撃破</td><td>20</td></tr>
+          <tr><td>デイリークエストポイントが合計（300/500/1,000）に達する</td><td>各20</td></tr>
+          <tr><td>採集（1,000万/2,000万ポイント分）</td><td>各20</td></tr>
+          <tr><td>採集（3,000万/5,000万/1億ポイント分）</td><td>各50</td></tr>
+          <tr><td>500万ポイントの兵士を訓練</td><td>20</td></tr>
+          <tr><td>500万キルポイントを獲得</td><td>20</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">⚔️ 挑戦クエスト</div>
+
+    <div class="panel accent-red">
+      <div class="panel-title">個人挑戦</div>
+      <table class="data-table">
+        <thead><tr><th>クエスト</th><th>EXP</th></tr></thead>
+        <tbody>
+          <tr><td>Lv.1〜70の暴走魔力スポットに勝利</td><td>各10</td></tr>
+          <tr><td>拠点攻撃でキルランキングに入る（1/3/5/10回）</td><td>各50</td></tr>
+          <tr><td>拠点攻撃で解体ランキングに入る（1/3/5回）</td><td>各50</td></tr>
+          <tr><td>キルポイントを獲得（2/5/10/15/20億）</td><td>各50</td></tr>
+          <tr><td>ロストシティマップ内で兵士を1億ポイント分訓練</td><td>50</td></tr>
+          <tr><td>戦死兵ポイントを獲得（1/3/5/10億）</td><td>各50</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel accent-purple">
+      <div class="panel-title">勢力挑戦</div>
+      <table class="data-table">
+        <thead><tr><th>クエスト</th><th>EXP</th></tr></thead>
+        <tbody>
+          <tr><td>Lv.1〜4拠点を占領する</td><td>各50</td></tr>
+          <tr><td>Lv.5〜6拠点を占領する</td><td>各75</td></tr>
+          <tr><td>Lv.7拠点を占領する</td><td>100</td></tr>
+          <tr><td>Lv.8拠点を占領する</td><td>150</td></tr>
+          <tr><td>勢力ポイントの最大値が1,000に到達</td><td>50</td></tr>
+          <tr><td>他の勢力の都市を1回占領する</td><td>20</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-gold">
+      <span class="alert-icon">💡</span>
+      <div><strong>キルポイント・採集・訓練の注意点</strong><br>キルポイントは他のロードとの城戦闘か、拠点の外城で相手勢力の駐屯を攻撃しないと獲得できない。兵士訓練・採集は必ず<strong>ロストシティマップ内</strong>で行うこと。</div>
     </div>
   </section>
 
