@@ -494,7 +494,7 @@
     <button class="nav-btn" onclick="showSection('temp', this)">🌡️ 温暖値</button>
     <button class="nav-btn" onclick="showSection('ship', this)">✈️ 飛行船</button>
     <button class="nav-btn" onclick="showSection('base', this)">🏰 拠点</button>
-
+    <button class="nav-btn" onclick="showSection('daiji', this)">📜 大事記</button>
   </div>
 </nav>
 
@@ -718,9 +718,13 @@
           <div style="font-size:13px;color:var(--text-dim)">拠点の生産ボーナスが<strong style="color:var(--accent3)">消滅</strong></div>
         </div>
       </div>
-      <div class="alert alert-gold" style="margin-top:16px;margin-bottom:0;">
+      <div class="alert alert-gold" style="margin-top:16px;">
         <span class="alert-icon">⭐</span>
         <div>温暖値が<strong>100に達した日</strong>は石炭20・薪10・小型リソース宝箱×10がもらえる！毎日100を目指そう</div>
+      </div>
+      <div class="alert alert-blue" style="margin-bottom:0;">
+        <span class="alert-icon">📊</span>
+        <div><strong>毎日09:00に生存判定</strong>：温暖値が0以上なら生存成功→サバイバルログの生存日数+1で報酬獲得。<br>0以下だった場合のペナルティは現時点では不明。情報が入り次第更新予定。</div>
       </div>
     </div>
 
@@ -731,6 +735,10 @@
         <div class="step-desc" style="margin-bottom:12px;">狂暴地獄要塞への集結で1回あたり<strong>10個</strong>入手。1日上限<strong>100個</strong>まで</div>
         <div class="tag tag-blue">自分で使う</div>
         <div class="step-desc" style="margin-top:8px;">石炭1個使用 → 自分の温暖値が上昇</div>
+        <div class="alert alert-red" style="margin-top:10px;margin-bottom:0;">
+          <span class="alert-icon">⚠️</span>
+          <div>自分で獲得できる石炭100個だけでは<strong>毎日の生存は不可</strong>。1日おきに使うか、勢力メンバーやサブ垢からの薪を活用しよう</div>
+        </div>
       </div>
       <div class="panel accent-blue">
         <div class="panel-title">🪵 薪（仲間の温暖値↑）</div>
@@ -743,6 +751,34 @@
     <div class="alert alert-gold" style="margin-top:4px;">
       <span class="alert-icon">👥</span>
       <div><strong>ペアを作る理由はここ！</strong><br>石炭は自分の温暖値しか上げられず、薪は自分には使えない。だからお互いに薪を送り合う<strong>ペア</strong>を決めることで両者の温暖値を維持できる。プレイ時間帯が違う相手と組むと、オフライン中もカバーしてもらえて特に効果的！</div>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">🔬 温暖値を楽にする技術</div>
+    <div class="panel accent-purple">
+      <div class="panel-title">ロストシティ技術（サポート）から研究できる</div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num" style="background:rgba(168,85,247,0.15);color:var(--purple);border-color:rgba(168,85,247,0.3);">1</div>
+          <div class="step-content">
+            <div class="step-label">防寒 I・II・III</div>
+            <div class="step-desc">毎時間の温暖値の減少速度を下げられる。早めに研究しておくと楽になる</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num" style="background:rgba(168,85,247,0.15);color:var(--purple);border-color:rgba(168,85,247,0.3);">2</div>
+          <div class="step-content">
+            <div class="step-label">薪倉庫</div>
+            <div class="step-desc">解放すると盟友から受け取れる薪の数が最大<strong>50増加</strong>。より多くの薪をもらえるようになる</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num" style="background:rgba(168,85,247,0.15);color:var(--purple);border-color:rgba(168,85,247,0.3);">3</div>
+          <div class="step-content">
+            <div class="step-label">暖炉の管理人</div>
+            <div class="step-desc">解放するとオンライン中に<strong>石炭を自動で使用</strong>してくれる。温暖値の管理が楽になる</div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -862,6 +898,98 @@
   </section>
 
 
+
+  <!-- 大事記 -->
+  <section id="daiji">
+    <div class="section-title">📜 大事記</div>
+
+    <div class="alert alert-blue">
+      <span class="alert-icon">ℹ️</span>
+      <div>日数経過に応じて勢力が目標を達成すると報酬を獲得できる。<strong>効果は大事記を達成していなくても全員に起こる</strong>ので、進行状況を把握しておこう。</div>
+    </div>
+
+    <div class="panel accent-gold">
+      <div class="panel-title">大事記一覧</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>日数</th><th>任務名</th><th>勢力目標</th><th>主な効果</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1日目</td>
+            <td>迷宮都市の初入り</td>
+            <td>Lv.1都市を1個占領</td>
+            <td>同時占領最大6個・Lv.8採集場解放</td>
+          </tr>
+          <tr>
+            <td>2日目</td>
+            <td>安住の地</td>
+            <td>Lv.2都市を1個占領</td>
+            <td>同時占領最大8個・Lv.3拠点解放</td>
+          </tr>
+          <tr>
+            <td>3日目</td>
+            <td>群雄割拠</td>
+            <td>Lv.3都市を1個占領</td>
+            <td>同時占領最大10個・Lv.9採集場解放</td>
+          </tr>
+          <tr>
+            <td>4日目</td>
+            <td>戦火の狼煙</td>
+            <td>狂暴地獄要塞を500個撃破</td>
+            <td>同時占領最大11個・Lv.4拠点解放</td>
+          </tr>
+          <tr>
+            <td>5日目</td>
+            <td>破竹の勢い</td>
+            <td>Lv.4都市を1個占領</td>
+            <td>同時占領最大13個・Lv.10採集場解放</td>
+          </tr>
+          <tr>
+            <td>6日目</td>
+            <td>立ちこめる硝煙</td>
+            <td>キルポイント3億獲得</td>
+            <td>同時占領最大16個・Lv.5拠点解放</td>
+          </tr>
+          <tr>
+            <td>7日目</td>
+            <td>雲が払われて日が見える</td>
+            <td>Lv.5都市を1個占領</td>
+            <td>同時占領最大18個・Lv.6都市解放・Lv.11採集場解放<br><span class="tag tag-red" style="margin-top:4px;">⚠️ 温暖値の下降速度が9/時間に加速</span></td>
+          </tr>
+          <tr>
+            <td>8日目</td>
+            <td>一触即発</td>
+            <td>Lv.6都市を1個占領</td>
+            <td>同時占領最大21個・Lv.7都市解放</td>
+          </tr>
+          <tr>
+            <td>9日目</td>
+            <td>油断してはいけない</td>
+            <td>Lv.7都市を1個占領</td>
+            <td>同時占領最大24個・Lv.12採集場解放</td>
+          </tr>
+          <tr>
+            <td>10日目</td>
+            <td>皇城での争い</td>
+            <td>キルポイント5億獲得</td>
+            <td>同時占領最大30個・Lv.8都市解放</td>
+          </tr>
+          <tr>
+            <td>12日目</td>
+            <td>諸侯に封じる</td>
+            <td>Lv.8都市占領＋勢力値20,000以上</td>
+            <td>ロストシティ終了・決算開始</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-red">
+      <span class="alert-icon">🚨</span>
+      <div><strong>7日目以降は温暖値の下降速度が9/時間に加速！</strong><br>後半になるほど温暖値の管理が厳しくなる。防寒技術の研究・ペアとの連携をしっかり整えておこう。</div>
+    </div>
+  </section>
 
 </main>
 
