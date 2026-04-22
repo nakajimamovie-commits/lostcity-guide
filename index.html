@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ロストシティ 初心者攻略ガイド</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #0d1425;
+    --panel: #111827;
+    --border: #1e3a5f;
+    --accent: #00b4d8;
+    --accent2: #f0a500;
+    --accent3: #e63946;
+    --text: #e2e8f0;
+    --text-dim: #8899b0;
+    --green: #22c55e;
+    --purple: #a855f7;
+    --glow: 0 0 20px rgba(0,180,216,0.3);
+    --glow2: 0 0 20px rgba(240,165,0,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* 背景エフェクト */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(0,180,216,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(240,165,0,0.05) 0%, transparent 50%),
+      repeating-linear-gradient(
+        0deg, transparent, transparent 40px,
+        rgba(255,255,255,0.01) 40px, rgba(255,255,255,0.01) 41px
+      ),
+      repeating-linear-gradient(
+        90deg, transparent, transparent 40px,
+        rgba(255,255,255,0.01) 40px, rgba(255,255,255,0.01) 41px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ヘッダー */
+  header {
+    position: relative;
+    text-align: center;
+    padding: 60px 20px 40px;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), var(--accent), transparent);
+    animation: shimmer 3s infinite;
+  }
+
+  @keyframes shimmer {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  .header-badge {
+    display: inline-block;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    border: 1px solid rgba(0,180,216,0.4);
+    padding: 4px 16px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    animation: fadeIn 0.8s ease;
+  }
+
+  h1 {
+    font-size: clamp(28px, 6vw, 56px);
+    font-weight: 900;
+    line-height: 1.1;
+    animation: fadeInUp 0.8s ease 0.1s both;
+  }
+
+  h1 .line1 {
+    display: block;
+    color: var(--text);
+    text-shadow: 0 0 30px rgba(255,255,255,0.1);
+  }
+
+  h1 .line2 {
+    display: block;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header-sub {
+    margin-top: 12px;
+    color: var(--text-dim);
+    font-size: 14px;
+    animation: fadeInUp 0.8s ease 0.2s both;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ナビゲーション */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,14,26,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+  }
+
+  .nav-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-inner::-webkit-scrollbar { display: none; }
+
+  .nav-btn {
+    flex-shrink: 0;
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dim);
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: 'Noto Sans JP', sans-serif;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-btn:hover, .nav-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* メインコンテンツ */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 16px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* セクション */
+  section {
+    display: none;
+    animation: fadeInUp 0.4s ease;
+  }
+
+  section.active { display: block; }
+
+  /* パネル */
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+  }
+
+  .panel.accent-blue::before { background: var(--accent); }
+  .panel.accent-gold::before { background: var(--accent2); }
+  .panel.accent-red::before { background: var(--accent3); }
+  .panel.accent-green::before { background: var(--green); }
+  .panel.accent-purple::before { background: var(--purple); }
+
+  .panel-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Rajdhani', sans-serif;
+    margin-bottom: 12px;
+  }
+
+  .panel.accent-blue .panel-title { color: var(--accent); }
+  .panel.accent-gold .panel-title { color: var(--accent2); }
+  .panel.accent-red .panel-title { color: var(--accent3); }
+  .panel.accent-green .panel-title { color: var(--green); }
+  .panel.accent-purple .panel-title { color: var(--purple); }
+
+  /* セクション見出し */
+  .section-title {
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* ステップリスト */
+  .step-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .step-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: border-color 0.2s;
+  }
+
+  .step-item:hover { border-color: rgba(0,180,216,0.3); }
+
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Rajdhani', sans-serif;
+    flex-shrink: 0;
+    background: rgba(0,180,216,0.15);
+    color: var(--accent);
+    border: 1px solid rgba(0,180,216,0.3);
+  }
+
+  .step-content { flex: 1; }
+  .step-label { font-weight: 700; font-size: 14px; margin-bottom: 3px; }
+  .step-desc { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+
+  /* タグ */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 4px;
+    margin-bottom: 2px;
+  }
+
+  .tag-blue { background: rgba(0,180,216,0.15); color: var(--accent); border: 1px solid rgba(0,180,216,0.3); }
+  .tag-gold { background: rgba(240,165,0,0.15); color: var(--accent2); border: 1px solid rgba(240,165,0,0.3); }
+  .tag-red { background: rgba(230,57,70,0.15); color: var(--accent3); border: 1px solid rgba(230,57,70,0.3); }
+  .tag-green { background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
+
+  /* 警告ボックス */
+  .alert {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .alert-icon { font-size: 18px; flex-shrink: 0; }
+  .alert-red { background: rgba(230,57,70,0.1); border: 1px solid rgba(230,57,70,0.3); }
+  .alert-gold { background: rgba(240,165,0,0.1); border: 1px solid rgba(240,165,0,0.3); }
+  .alert-blue { background: rgba(0,180,216,0.1); border: 1px solid rgba(0,180,216,0.3); }
+
+  /* テーブル */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th {
+    text-align: left;
+    padding: 8px 12px;
+    background: rgba(0,180,216,0.08);
+    color: var(--accent);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: 'Rajdhani', sans-serif;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text-dim);
+  }
+  .data-table tr:hover td { background: rgba(255,255,255,0.02); color: var(--text); }
+  .data-table td:first-child { color: var(--text); font-weight: 700; }
+
+  /* タイムライン (1日スケジュール) */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+
+  .tl-item {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .tl-dot {
+    position: absolute;
+    left: -26px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+  }
+
+  .tl-item.warn .tl-dot { border-color: var(--accent3); }
+  .tl-item.gold .tl-dot { border-color: var(--accent2); }
+
+  .tl-time {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .tl-item .tl-time { color: var(--accent); }
+  .tl-item.warn .tl-time { color: var(--accent3); }
+  .tl-item.gold .tl-time { color: var(--accent2); }
+
+  .tl-title { font-weight: 700; font-size: 14px; margin-bottom: 3px; }
+  .tl-desc { font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+
+  /* チェックリスト */
+  .checklist { display: flex; flex-direction: column; gap: 8px; }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .check-item:hover { border-color: rgba(0,180,216,0.3); }
+  .check-item.done { opacity: 0.5; }
+  .check-item.done .check-box { background: var(--green); border-color: var(--green); }
+
+  .check-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+
+  .check-text { font-size: 13px; line-height: 1.6; }
+  .check-label { font-weight: 700; font-size: 14px; }
+
+  /* グリッド */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* ニューバッジ */
+  .new-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    font-family: 'Rajdhani', sans-serif;
+    letter-spacing: 1px;
+    background: var(--accent3);
+    color: white;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* 温度ゲージ */
+  .temp-bar-wrap { margin: 12px 0; }
+  .temp-label { font-size: 12px; color: var(--text-dim); margin-bottom: 6px; display: flex; justify-content: space-between; }
+  .temp-bar {
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .temp-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s ease;
+  }
+  .temp-fill.good { background: linear-gradient(90deg, var(--accent), var(--green)); }
+  .temp-fill.bad { background: linear-gradient(90deg, var(--accent3), #ff6b6b); }
+
+  /* スケジュールカード */
+  .day-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .day-tab {
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    font-family: 'Noto Sans JP', sans-serif;
+    transition: all 0.2s;
+  }
+  .day-tab.active {
+    background: rgba(0,180,216,0.15);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .day-content { display: none; }
+  .day-content.active { display: block; animation: fadeInUp 0.3s ease; }
+
+  /* フッター */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-dim);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Puzzles & Conquest</div>
+  <h1>
+    <span class="line1">ロストシティ</span>
+    <span class="line2">初心者攻略ガイド</span>
+  </h1>
+  <p class="header-sub">今回の新要素対応版 ／ 完全初心者向け</p>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showSection('overview', this)">📋 概要</button>
+    <button class="nav-btn" onclick="showSection('schedule', this)">📅 スケジュール</button>
+    <button class="nav-btn" onclick="showSection('daily', this)">☀️ 1日の行動</button>
+    <button class="nav-btn" onclick="showSection('temp', this)">🌡️ 温暖値</button>
+    <button class="nav-btn" onclick="showSection('ship', this)">✈️ 飛行船</button>
+    <button class="nav-btn" onclick="showSection('base', this)">🏰 拠点</button>
+
+  </div>
+</nav>
+
+<main>
+
+  <!-- 概要 -->
+  <section id="overview" class="active">
+    <div class="section-title">📋 イベント概要</div>
+
+    <div class="alert alert-blue">
+      <span class="alert-icon">ℹ️</span>
+      <div>国内のトップクランが合体して<strong>「勢力」</strong>を作り、専用マップで他国と<strong>拠点を取り合う</strong>大型イベントです。約2週間開催されます。</div>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">✅ 参加条件</div>
+    <div class="panel accent-gold">
+      <div class="panel-title">マッチング時間</div>
+      <div class="step-desc" style="margin-bottom:16px;">04/22 09:00 〜 04/24 09:00</div>
+      <div class="panel-title">参加の前提条件</div>
+      <div class="step-desc" style="margin-bottom:16px;">城のレベル ≥ Lv.23、04/14 09:00 〜 04/22 09:00 にログインしたことがある</div>
+      <div class="step-desc" style="margin-bottom:16px;">マッチング中、各王国の各クランでの前提条件を満たすロードの総戦力が集計され、ランキングが作成されます。TOP5クランでの条件を満たすロードが参加資格を得ます。マッチング期間中、すべてのロードは一時的に移民できません。</div>
+      <div class="alert alert-red" style="margin-bottom:0;">
+        <span class="alert-icon">⚠️</span>
+        <div>参加したいロードは、マッチング時間直前に移民やクラン変更を行わないようにしてください。マッチングが終了したら、参加資格を得たロードがクランを変更しても資格に影響はありませんが、<strong>イベント終了前に移民することはできません。</strong></div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">🗺️ イベントの流れ（大まかに）</div>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num" style="background:rgba(240,165,0,0.15);color:var(--accent2);border-color:rgba(240,165,0,0.3);">前</div>
+        <div class="step-content">
+          <div class="step-label">遠征前夜（3日間）</div>
+          <div class="step-desc">採集・ブースト・エッセンス開封の3日間。本番に備えてリソースを集める</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num" style="background:rgba(230,57,70,0.15);color:var(--accent3);border-color:rgba(230,57,70,0.3);">本</div>
+        <div class="step-content">
+          <div class="step-label">正式イベント（約2週間）</div>
+          <div class="step-desc">専用マップで拠点を取り合う。毎日温暖値管理・採集・狂暴地獄要塞を繰り返す</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num" style="background:rgba(168,85,247,0.15);color:var(--purple);border-color:rgba(168,85,247,0.3);">後</div>
+        <div class="step-content">
+          <div class="step-label">決算期間（3日間）</div>
+          <div class="step-desc">交換ショップが開放。獲得したコインでアイテムと交換</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- スケジュール -->
+  <section id="schedule">
+    <div class="section-title">📅 今回のスケジュール</div>
+
+    <div class="panel accent-blue">
+      <div class="panel-title">開催日程</div>
+      <table class="data-table">
+        <thead><tr><th>フェーズ</th><th>期間</th></tr></thead>
+        <tbody>
+          <tr><td>🔍 マッチング</td><td>04/22 09:00 ～ 04/24 09:00</td></tr>
+          <tr><td>⚔️ 遠征前夜</td><td>04/24 09:00 ～ 04/27 09:00</td></tr>
+          <tr><td>🏆 正式イベント</td><td>04/27 09:00 ～ 05/11 09:00</td></tr>
+          <tr><td>💰 決算期間</td><td>05/11 09:00 ～ 05/14 09:00</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">📅 遠征前夜 3日間の行動</div>
+    <div class="grid-2">
+      <div class="panel accent-blue">
+        <div class="panel-title">1日目</div>
+        <div class="step-label" style="margin-bottom:8px;">🌾 食料備蓄</div>
+        <div class="step-desc">採集をたくさんする。資源採集ブースト50%を活用。「今すぐ採集」スキルも使おう</div>
+      </div>
+      <div class="panel accent-gold">
+        <div class="panel-title">2日目</div>
+        <div class="step-label" style="margin-bottom:8px;">⚒️ ブースト使用</div>
+        <div class="step-desc">建造・研究・訓練のブーストを使う。4段階目まで達成を目安に</div>
+      </div>
+    </div>
+    <div class="panel accent-green">
+      <div class="panel-title">3日目</div>
+      <div class="step-label" style="margin-bottom:8px;">⚔️ エッセンス・水晶開封</div>
+      <div class="step-desc">星進級選択宝箱・エッセンス選択宝箱・地獄要塞の宝箱などはこの日に開ける。レアアースショップの魂石素材、試練の塔ショップのジェム素材もポイントになる</div>
+    </div>
+  </section>
+
+  <!-- 1日の行動 -->
+  <section id="daily">
+    <div class="section-title">☀️ 1日の行動ガイド</div>
+
+    <div class="day-tabs">
+      <button class="day-tab active" onclick="showDay('timeline', this)">⏱️ タイムライン</button>
+      <button class="day-tab" onclick="showDay('checklist', this)">✅ チェックリスト</button>
+    </div>
+
+    <!-- タイムライン -->
+    <div id="day-timeline" class="day-content active">
+      <div class="alert alert-red">
+        <span class="alert-icon">🚨</span>
+        <div><strong>08:30〜09:00は要注意！</strong><br>この時間帯は温暖値の減少速度が<strong>3倍</strong>になります（寒流の爆発）。この前に石炭・薪で温暖値を上げておこう。</div>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item gold">
+          <div class="tl-dot"></div>
+          <div class="tl-time">毎日 起きたら まず</div>
+          <div class="tl-title">🌡️ 温暖値を確認・補充</div>
+          <div class="tl-desc">石炭を使って自分の温暖値を回復。ペアの相手に薪を送る。目標は温暖値100で毎日デイリー報酬ゲット</div>
+        </div>
+        <div class="tl-item warn">
+          <div class="tl-dot"></div>
+          <div class="tl-time">08:00 ～ 08:30</div>
+          <div class="tl-title">⚠️ 寒流爆発前に温暖値をMAXへ</div>
+          <div class="tl-desc">08:30から温暖値減少が3倍になる。この前に石炭・薪を使い切ってなるべく高くしておく</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">09:00</div>
+          <div class="tl-title">📊 生存判定 ＆ デイリークエスト開始</div>
+          <div class="tl-desc">09:00時点で温暖値0以上なら生存成功。デイリークエストが更新されるので早めに着手</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">日中（時間があるとき）</div>
+          <div class="tl-title">⚡ 狂暴地獄要塞に集結</div>
+          <div class="tl-desc">石炭・薪を獲得できる。飛行船ステータスも乗るので強くなれる。できるだけ毎日叩こう</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">日中（時間があるとき）</div>
+          <div class="tl-title">🌾 採集する</div>
+          <div class="tl-desc">必ずロストシティマップ内で採集。安全地帯から離れる場合は庇いの盾を切らさずに</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">拠点生産（最大12時間で満杯）</div>
+          <div class="tl-title">🏰 拠点の生産物を回収</div>
+          <div class="tl-desc">12時間で満杯になるので1日2回を目安に回収しよう。温暖値が高いとボーナスあり</div>
+        </div>
+        <div class="tl-item gold">
+          <div class="tl-dot"></div>
+          <div class="tl-time">寝る前</div>
+          <div class="tl-title">🌡️ 温暖値を補充してから寝る</div>
+          <div class="tl-desc">翌朝09:00の生存判定に向けて、寝る前に石炭・薪を使っておく。ペアと連携して翌朝もカバーしてもらう</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-time">毎週金曜 09:00</div>
+          <div class="tl-title">⚔️ 英霊殿で兵士20%が無料回復</div>
+          <div class="tl-desc">英霊殿内の兵士が20%自動回復する。金曜を意識して戦略を組もう</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- チェックリスト -->
+    <div id="day-checklist" class="day-content">
+      <div class="alert alert-gold">
+        <span class="alert-icon">💡</span>
+        <div>タップするとチェックできます（ページ再読み込みでリセット）</div>
+      </div>
+
+      <div class="panel accent-red" style="margin-bottom:16px;">
+        <div class="panel-title">🚨 最優先（毎日必須）</div>
+        <div class="checklist" id="checklist1">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text"><div class="check-label">温暖値を確認・石炭で回復</div><div style="font-size:12px;color:var(--text-dim)">08:30前に高くしておく。目標は100</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text"><div class="check-label">ペアの相手に薪を送る</div><div style="font-size:12px;color:var(--text-dim)">お互いに温暖値を維持するため</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text"><div class="check-label">09:00の生存判定を確認</div><div style="font-size:12px;color:var(--text-dim)">温暖値0以上で生存成功</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text"><div class="check-label">デイリークエストをこなす</div><div style="font-size:12px;color:var(--text-dim)">英霊殿の復活の結晶獲得にもつながる</div></div></div>
+        </div>
+      </div>
+
+      <div class="panel accent-blue" style="margin-bottom:16px;">
+        <div class="panel-title">⭐ 毎日やりたいこと</div>
+        <div class="checklist" id="checklist2">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text"><div class="check-label">狂暴地獄要塞に集結</div><div style="font-size:12px;color:var(--text-dim)">石炭・薪・ミスリル原石が手に入る</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text"><div class="check-label">採集する（ロストシティマップ内で）</div><div style="font-size:12px;color:var(--text-dim)">マップ外では採集ポイントがカウントされない</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text"><div class="check-label">拠点の生産物を回収</div><div style="font-size:12px;color:var(--text-dim)">12時間で満杯。1日2回を目安に</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text"><div class="check-label">飛行船をレベルアップ</div><div style="font-size:12px;color:var(--text-dim)">ミスリル原石を使って強化</div></div></div>
+        </div>
+      </div>
+
+      <div class="panel accent-green">
+        <div class="panel-title">💪 余裕があれば</div>
+        <div class="checklist">
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text"><div class="check-label">暴走魔力スポットに挑戦</div><div style="font-size:12px;color:var(--text-dim)">飛行船と英雄のステータスのみ使用（兵士不要）</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text"><div class="check-label">ウィークリークエストを確認</div><div style="font-size:12px;color:var(--text-dim)">達成するとクエストパスEXPが貯まる</div></div></div>
+          <div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div class="check-text"><div class="check-label">拠点の駐屯サポート</div><div style="font-size:12px;color:var(--text-dim)">初心者は攻撃より守りから始めよう</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 温暖値 -->
+  <section id="temp">
+    <div class="section-title">🌡️ 温暖値（温度）管理</div>
+
+    <div class="alert alert-red">
+      <span class="alert-icon">🔥</span>
+      <div><strong>毎日08:30〜09:00は要注意！</strong>この時間帯だけ減少速度が<strong>3倍</strong>になります（寒流の爆発）。この前に石炭・薪で温暖値を上げておこう。またイベント後半（クロニクル後半）になると全体的な減少速度も加速します。</div>
+    </div>
+
+    <div class="panel accent-blue">
+      <div class="panel-title">温暖値の効果</div>
+      <div class="grid-2">
+        <div>
+          <div class="temp-bar-wrap">
+            <div class="temp-label"><span>+70以上</span><span style="color:var(--green)">✅ 良い状態</span></div>
+            <div class="temp-bar"><div class="temp-fill good" style="width:85%"></div></div>
+          </div>
+          <div style="font-size:13px;color:var(--text-dim)">拠点の生産量が大幅<strong style="color:var(--green)">増加</strong></div>
+        </div>
+        <div>
+          <div class="temp-bar-wrap">
+            <div class="temp-label"><span>-70以下</span><span style="color:var(--accent3)">❌ 危険な状態</span></div>
+            <div class="temp-bar"><div class="temp-fill bad" style="width:20%"></div></div>
+          </div>
+          <div style="font-size:13px;color:var(--text-dim)">拠点の生産ボーナスが<strong style="color:var(--accent3)">消滅</strong></div>
+        </div>
+      </div>
+      <div class="alert alert-gold" style="margin-top:16px;margin-bottom:0;">
+        <span class="alert-icon">⭐</span>
+        <div>温暖値が<strong>100に達した日</strong>は石炭20・薪10・小型リソース宝箱×10がもらえる！毎日100を目指そう</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">🔥 石炭と薪の入手・使い方</div>
+    <div class="grid-2">
+      <div class="panel accent-gold">
+        <div class="panel-title">🪨 石炭（自分の温暖値↑）</div>
+        <div class="step-desc" style="margin-bottom:12px;">狂暴地獄要塞への集結で1回あたり<strong>10個</strong>入手。1日上限<strong>100個</strong>まで</div>
+        <div class="tag tag-blue">自分で使う</div>
+        <div class="step-desc" style="margin-top:8px;">石炭1個使用 → 自分の温暖値が上昇</div>
+      </div>
+      <div class="panel accent-blue">
+        <div class="panel-title">🪵 薪（仲間の温暖値↑）</div>
+        <div class="step-desc" style="margin-bottom:12px;">狂暴地獄要塞への集結で1回あたり<strong>5個</strong>入手。1日上限<strong>50個</strong>まで</div>
+        <div class="tag tag-green">仲間に送る専用</div>
+        <div class="step-desc" style="margin-top:8px;"><strong>薪は自分には使えない</strong>。盟友に送ることで相手の温暖値を上げる専用アイテム。送ると自分にもブースト5分×2がもらえる</div>
+      </div>
+    </div>
+
+    <div class="alert alert-gold" style="margin-top:4px;">
+      <span class="alert-icon">👥</span>
+      <div><strong>ペアを作る理由はここ！</strong><br>石炭は自分の温暖値しか上げられず、薪は自分には使えない。だからお互いに薪を送り合う<strong>ペア</strong>を決めることで両者の温暖値を維持できる。プレイ時間帯が違う相手と組むと、オフライン中もカバーしてもらえて特に効果的！</div>
+    </div>
+  </section>
+
+  <!-- 飛行船 -->
+  <section id="ship">
+    <div class="section-title">✈️ 飛行船ガイド</div>
+
+    <div class="alert alert-blue">
+      <span class="alert-icon">ℹ️</span>
+      <div>ロストシティマップでは<strong>飛行船に乗らないと出撃できない</strong>（採集・攻撃・集結すべて）。まず自分の特化兵種の飛行船を育てよう。</div>
+    </div>
+
+    <div class="panel accent-gold">
+      <div class="panel-title">飛行船のレア度と強さ</div>
+      <table class="data-table">
+        <thead><tr><th>レア度</th><th>確率</th><th>最大ステUP</th><th>部隊規模</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag tag-gold">HR</span></td><td>2%</td><td>+4000%</td><td>500,000</td></tr>
+          <tr><td><span class="tag tag-blue">R</span></td><td>8%</td><td>+850%</td><td>250,000</td></tr>
+          <tr><td>HN</td><td>30%</td><td>+350%</td><td>125,000</td></tr>
+          <tr><td>N</td><td>60%</td><td>+102%</td><td>62,500</td></tr>
+        </tbody>
+      </table>
+      <div class="alert alert-gold" style="margin-top:12px;margin-bottom:0;">
+        <span class="alert-icon">⚠️</span>
+        <div><span class="new-badge">NEW</span> <strong>HR飛行船に数量制限あり</strong>。上限に達するとその種類は出現しなくなる（全種類が尽きるとリセット）。イベント終了後は飛行船の数もリセット（欠片・星レベルは保存）</div>
+      </div>
+    </div>
+
+    <div class="panel accent-blue" style="margin-top:16px;">
+      <div class="panel-title">🆕 今回追加：飛行船の艤装<span class="new-badge">NEW</span></div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-label">ミスリル竜骨で艤装を開発</div>
+            <div class="step-desc">100回連続でSR艤装が出なかった場合、次は必ずSR確定（天井あり）</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-label">飛行船に装備する</div>
+            <div class="step-desc">装備した飛行船にのみ効果を発揮</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-label">同種セットを2/4/6個揃えるとセットボーナス発動</div>
+            <div class="step-desc">バラバラに装備するよりセットで揃える方が強い！</div>
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-blue" style="margin-top:12px;margin-bottom:0;">
+        <span class="alert-icon">💾</span>
+        <div>イベント終了後、艤装の<strong>レベル・オリハルコン粗鉱はリセット</strong>されるが、<strong>星レベルは次回に引き継ぎ</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 拠点 -->
+  <section id="base">
+    <div class="section-title">🏰 拠点・領土ガイド</div>
+
+    <div class="panel accent-blue">
+      <div class="panel-title">マップの基本構造</div>
+      <div class="step-desc" style="margin-bottom:12px;">マップは<strong>99個の領土</strong>に分かれており、各領土に拠点が1つある。拠点を攻略することで領土を占領できる。</div>
+      <div class="alert alert-gold" style="margin-bottom:0;">
+        <span class="alert-icon">🔑</span>
+        <div><strong>有効領土</strong>の重要ルール：本拠地と繋がっていない領土は「無効」になり、採集・戦闘・駐屯ができなくなる。領土が切断されないよう注意！</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">⚔️ 拠点攻略の流れ</div>
+    <div class="step-list">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-label">外壁のNPC守備隊を倒す</div>
+          <div class="step-desc">各部隊は1回の攻撃で最大3つのNPC部隊しか倒せない。上限に達すると自動撤退。<strong>外壁戦では集結不可</strong>・到着順に1部隊ずつ戦う</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-label">外壁を占領して駐屯させる</div>
+          <div class="step-desc">外壁を占領した後、自軍の部隊を駐屯させて守ることができる。NPC守備隊も協力して戦ってくれる</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-label">内城を攻撃する</div>
+          <div class="step-desc">外壁を占領した後にのみ内城を攻撃できる。主力部隊は直接戦わず、<strong>飛行船の攻城値でダメージ</strong>が決まる。耐久度は時間で回復</div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-label">内城の耐久度を0にして占領完了</div>
+          <div class="step-desc">占領後は数時間の<strong>休戦期間</strong>に入り、その間は無敵。初回占領時はランダムで宝箱が配布される</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-red" style="margin-top:16px;">
+      <span class="alert-icon">🛡️</span>
+      <div><strong>初心者へのアドバイス：</strong>最初は拠点攻撃より<strong>駐屯サポート（守り）</strong>から始めよう。魔能石を無駄遣いしなくて済む。</div>
+    </div>
+
+    <div class="section-title" style="margin-top:24px;">🏰 安全エリアについて</div>
+    <div class="panel accent-green">
+      <div class="panel-title">安全エリアのルール</div>
+      <div class="step-desc">各ロードの初期城は安全エリア内に配置される。<strong>安全エリア内の城やリソースポイントは絶対に攻撃されない</strong>。ただし敵勢力の領土では庇いの盾が使えないので注意。</div>
+    </div>
+  </section>
+
+
+
+</main>
+
+<footer>
+  <p>パズル＆コンクエスト ロストシティ 初心者攻略ガイド</p>
+  <p style="margin-top:6px;">今回（2026年4月）のゲーム内表示をもとに作成</p>
+</footer>
+
+<script>
+  function showSection(id, btn) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showDay(id, btn) {
+    document.querySelectorAll('.day-content').forEach(d => d.classList.remove('active'));
+    document.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('day-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function toggleCheck(el) {
+    el.classList.toggle('done');
+    const box = el.querySelector('.check-box');
+    box.textContent = el.classList.contains('done') ? '✓' : '';
+  }
+</script>
+
+</body>
+</html>
