@@ -6,11 +6,11 @@ module.exports = async function handler(req, res) {
   try {
     const { html, lang } = req.body;
 
-    const langMap = {
-      tw: 'ZH',
-      hk: 'ZH',
-      tr: 'TR'
-    };
+const langMap = {
+  tw: 'ZH-TW',
+  hk: 'ZH-TW',
+  tr: 'TR'
+};
 
     const targetLang = langMap[lang];
 console.log('DEEPL_API_KEY exists:', !!process.env.DEEPL_API_KEY);
