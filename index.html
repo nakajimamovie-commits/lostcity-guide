@@ -1654,10 +1654,10 @@ const translatedText = data.translated || '';
   // Google翻訳ウィジェット初期化（削除）
 
   // ページ読み込み時にdata-ja属性を設定
-document.querySelectorAll('.nav-btn').forEach(btn => {
-  const text = btn.textContent.replace(/^\S+\s*/, '').trim();
-  btn.setAttribute('data-ja', text);
-});
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    const text = btn.textContent.replace(/^\S+\s*/, '').trim();
+    btn.setAttribute('data-ja', text);
+  });
 </script>
 
 </body>
