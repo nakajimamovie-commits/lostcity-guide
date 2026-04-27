@@ -1570,7 +1570,7 @@
       translatedHTML[lang] = {};
 
       // 3セクションずつ翻訳
-      const chunkSize = 3;
+      const chunkSize = 1;
       for (let i = 0; i < sectionIds.length; i += chunkSize) {
         const chunk = sectionIds.slice(i, i + chunkSize);
         msg.textContent = `翻訳中... (${Math.min(i + chunkSize, sectionIds.length)}/${sectionIds.length})`;
