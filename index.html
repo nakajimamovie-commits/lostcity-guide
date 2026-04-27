@@ -1522,7 +1522,43 @@
     hk: '以下のHTMLを繁体字中国語（香港）に翻訳してください。香港で使われる広東語的な表現・用語を使用してください。HTMLタグ・クラス名・属性値・絵文字・数字・記号はそのまま保持し、テキスト内容のみ翻訳してください。翻訳済みHTMLのみ返してください。説明文は不要です。',
     tr: 'Aşağıdaki HTML\'i Türkçeye çevirin. HTML etiketleri, sınıf adları, özellik değerleri, emojiler, sayılar ve semboller olduğu gibi korunmalı, yalnızca metin içeriği çevrilmelidir. Yalnızca çevrilmiş HTML\'i döndürün, açıklama eklemeyin.'
   };
+const navTranslations = {
+    tw: {
+      '概要': '概要', 'スケジュール': '時程', '1日の行動': '每日行動',
+      '温暖値': '溫暖值', '飛行船': '飛行船', '拠点・領土': '據點・領土',
+      '採集・戦闘': '採集・戰鬥', '大事記': '大事記', 'クエスト': '任務',
+      '技術': '科技', '英霊殿': '英靈殿', '交換ショップ': '兌換商店'
+    },
+    hk: {
+      '概要': '概要', 'スケジュール': '時程', '1日の行動': '每日行動',
+      '温暖値': '暖度值', '飛行船': '飛行船', '拠点・領土': '據點・領土',
+      '採集・戦闘': '採集・戰鬥', '大事記': '大事記', 'クエスト': '任務',
+      '技術': '科技', '英霊殿': '英靈殿', '交換ショップ': '換領商店'
+    },
+    tr: {
+      '概要': 'Genel', 'スケジュール': 'Program', '1日の行動': 'Günlük',
+      '温暖値': 'Sıcaklık', '飛行船': 'Uçan Gemi', '拠点・領土': 'Üs・Toprak',
+      '採集・戦闘': 'Toplama・Savaş', '大事記': 'Kronik', 'クエスト': 'Görev',
+      '技術': 'Teknoloji', '英霊殿': 'Tapınak', '交換ショップ': 'Mağaza'
+    }
+  };
 
+  function updateNavLang(lang) {
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      const emoji = btn.textContent.match(/^\S+/)?.[0] || '';
+      if (!btn.getAttribute('data-ja')) {
+        btn.setAttribute('data-ja', btn.textContent.replace(/^\S+\s*/, '').trim());
+      }
+      const key = btn.getAttribute('data-ja');
+      if (lang === 'ja') {
+        btn.textContent = emoji + ' ' + key;
+      } else if (navTranslations[lang]?.[key]) {
+        btn.textContent = emoji + ' ' + navTranslations[lang][key];
+      }
+    });
+  }
+
+  const langCode = { tw: 'zh-TW', hk: 'zh-HK', tr: 'tr' };
   const langCode = { tw: 'zh-TW', hk: 'zh-HK', tr: 'tr' };
 
   async function switchLang(lang, btn) {
@@ -1537,6 +1573,7 @@
         if (el) el.innerHTML = originalHTML[id];
       });
       document.documentElement.lang = 'ja';
+      updateNavLang('ja');
       currentLang = 'ja';
       return;
     }
@@ -1560,6 +1597,7 @@ const sectionIds = ['site-header','site-nav','overview','schedule','daily','temp
           const el = document.getElementById(id);
           if (el && translatedHTML[lang][id]) el.innerHTML = translatedHTML[lang][id];
         });
+        updateNavLang(lang);
     document.documentElement.lang = langCode[lang];
         currentLang = lang;
         overlay.classList.remove('show');
