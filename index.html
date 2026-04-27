@@ -559,7 +559,7 @@
   <div class="translate-msg" id="translateMsg">翻訳中...</div>
 </div>
 
-<header>
+<header id="site-header">
   <div class="header-badge">Puzzles & Conquest</div>
   <h1>
     <span class="line1">ロストシティ</span>
@@ -568,7 +568,7 @@
   <p class="header-sub">今回の新要素対応版 ／ 完全初心者向け</p>
 </header>
 
-<nav>
+<nav id="site-nav">
   <div class="nav-inner">
     <button class="nav-btn active" onclick="showSection('overview', this)">📋 概要</button>
     <button class="nav-btn" onclick="showSection('schedule', this)">📅 スケジュール</button>
@@ -1541,7 +1541,7 @@
       return;
     }
 
-    const sectionIds = ['overview','schedule','daily','temp','ship','base','collect','daiji','quest','tech','shrine','shop'];
+const sectionIds = ['site-header','site-nav','overview','schedule','daily','temp','ship','base','collect','daiji','quest','tech','shrine','shop'];
     const overlay = document.getElementById('translateOverlay');
     const msg = document.getElementById('translateMsg');
     overlay.classList.add('show');
