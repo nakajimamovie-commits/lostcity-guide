@@ -1578,23 +1578,13 @@
           `<div data-section-id="${id}">${originalHTML[id] || ''}</div>`
         ).join('\n');
 
-        const response = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': API_KEY,
-            'anthropic-version': '2023-06-01'
-          },
-          body: JSON.stringify({
-            model: 'claude-sonnet-4-20250514',
-            max_tokens: 8000,
-            messages: [{ role: 'user', content: langPrompts[lang] + '\n\n' + combinedHTML }]
-          })
-        });
-
-        const data = await response.json();
-        const translatedText = data.content?.[0]?.text || '';
-
+        const response = await fetch('/api/translate', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ html: combinedHTML, lang })
+});
+const data = await response.json();
+const translatedText = data.translated || '';
         const parser = new DOMParser();
         const doc = parser.parseFromString('<div>' + translatedText + '</div>', 'text/html');
         chunk.forEach(id => {
