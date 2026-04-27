@@ -1512,7 +1512,6 @@
   }
 
   // ===== 言語切り替え =====
-  const API_KEY = 'AIzaSyBmopp2105LUSyKcA2CNF1HwqSMt5jjbA8'; // sk-ant-...
 
   let currentLang = 'ja';
   const originalHTML = {};
@@ -1561,8 +1560,10 @@
           const el = document.getElementById(id);
           if (el && translatedHTML[lang][id]) el.innerHTML = translatedHTML[lang][id];
         });
-        document.documentElement.lang = langCode[lang];
+    document.documentElement.lang = langCode[lang];
         currentLang = lang;
+        overlay.classList.remove('show');
+        document.querySelectorAll('.lang-btn').forEach(b => b.disabled = false);
         return;
       }
 
