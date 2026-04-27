@@ -26,6 +26,7 @@ export default async function handler(req, res) {
   });
 
   const data = await response.json();
-  const translated = data.content?.[0]?.text || html;
-  res.status(200).json({ translated });
-}
+console.log('API response status:', response.status);
+console.log('data:', JSON.stringify(data));
+const translated = data.content?.[0]?.text || html;
+res.status(200).json({ translated });
