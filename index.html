@@ -559,7 +559,7 @@
   <div class="translate-msg" id="translateMsg">翻訳中...</div>
 </div>
 
-<header id="site-header">
+<header>
   <div class="header-badge">Puzzles & Conquest</div>
   <h1>
     <span class="line1">ロストシティ</span>
@@ -568,20 +568,20 @@
   <p class="header-sub">今回の新要素対応版 ／ 完全初心者向け</p>
 </header>
 
-<nav id="site-nav">
+<nav>
   <div class="nav-inner">
-<button class="nav-btn active" onclick="showSection('overview', this)" data-ja="概要">📋 概要</button>
-<button class="nav-btn" onclick="showSection('schedule', this)" data-ja="スケジュール">📅 スケジュール</button>
-<button class="nav-btn" onclick="showSection('daily', this)" data-ja="1日の行動">☀️ 1日の行動</button>
-<button class="nav-btn" onclick="showSection('temp', this)" data-ja="温暖値">🌡️ 温暖値</button>
-<button class="nav-btn" onclick="showSection('ship', this)" data-ja="飛行船">✈️ 飛行船</button>
-<button class="nav-btn" onclick="showSection('base', this)" data-ja="拠点・領土">🏰 拠点・領土</button>
-<button class="nav-btn" onclick="showSection('collect', this)" data-ja="採集・戦闘">⚔️ 採集・戦闘</button>
-<button class="nav-btn" onclick="showSection('daiji', this)" data-ja="大事記">📜 大事記</button>
-<button class="nav-btn" onclick="showSection('quest', this)" data-ja="クエスト">🎯 クエスト</button>
-<button class="nav-btn" onclick="showSection('tech', this)" data-ja="技術">🔬 技術</button>
-<button class="nav-btn" onclick="showSection('shrine', this)" data-ja="英霊殿">👼 英霊殿</button>
-<button class="nav-btn" onclick="showSection('shop', this)" data-ja="交換ショップ">💰 交換ショップ</button>
+    <button class="nav-btn active" onclick="showSection('overview', this)">📋 概要</button>
+    <button class="nav-btn" onclick="showSection('schedule', this)">📅 スケジュール</button>
+    <button class="nav-btn" onclick="showSection('daily', this)">☀️ 1日の行動</button>
+    <button class="nav-btn" onclick="showSection('temp', this)">🌡️ 温暖値</button>
+    <button class="nav-btn" onclick="showSection('ship', this)">✈️ 飛行船</button>
+    <button class="nav-btn" onclick="showSection('base', this)">🏰 拠点・領土</button>
+    <button class="nav-btn" onclick="showSection('collect', this)">⚔️ 採集・戦闘</button>
+    <button class="nav-btn" onclick="showSection('daiji', this)">📜 大事記</button>
+    <button class="nav-btn" onclick="showSection('quest', this)">🎯 クエスト</button>
+    <button class="nav-btn" onclick="showSection('tech', this)">🔬 技術</button>
+    <button class="nav-btn" onclick="showSection('shrine', this)">👼 英霊殿</button>
+    <button class="nav-btn" onclick="showSection('shop', this)">💰 交換ショップ</button>
   </div>
 </nav>
 
@@ -685,7 +685,7 @@
     <div id="day-timeline" class="day-content active">
       <div class="alert alert-red">
         <span class="alert-icon">🚨</span>
-        <div><strong>08:30〜09:00は要注意！</strong><br>この時間帯は温暖値の減少速度が<strong>5倍</strong>になります（寒流の爆発）。この前に石炭・薪で温暖値を上げておこう。</div>
+        <div><strong>08:30〜09:00は要注意！</strong><br>この時間帯は温暖値の減少速度が<strong>3倍</strong>になります（寒流の爆発）。この前に石炭・薪で温暖値を上げておこう。</div>
       </div>
 
       <div class="timeline">
@@ -699,7 +699,7 @@
           <div class="tl-dot"></div>
           <div class="tl-time">08:00 ～ 08:30</div>
           <div class="tl-title">⚠️ 寒流爆発前に温暖値をMAXへ</div>
-          <div class="tl-desc">08:30から温暖値減少が<strong>5倍</strong>になる。この前に石炭・薪を使い切ってなるべく高くしておく</div>
+          <div class="tl-desc">08:30から温暖値減少が<strong>3倍</strong>になる。この前に石炭・薪を使い切ってなるべく高くしておく</div>
         </div>
         <div class="tl-item">
           <div class="tl-dot"></div>
@@ -784,7 +784,7 @@
 
     <div class="alert alert-red">
       <span class="alert-icon">🔥</span>
-      <div><strong>毎日08:30〜09:00は要注意！</strong>この時間帯だけ減少速度が<strong>5倍</strong>になります（寒流の爆発）。この前に石炭・薪で温暖値を上げておこう。またイベント後半（クロニクル後半）になると全体的な減少速度も加速します。</div>
+      <div><strong>毎日08:30〜09:00は要注意！</strong>この時間帯だけ減少速度が<strong>3倍</strong>になります（寒流の爆発）。この前に石炭・薪で温暖値を上げておこう。またイベント後半（クロニクル後半）になると全体的な減少速度も加速します。</div>
     </div>
 
     <div class="panel accent-blue">
@@ -818,29 +818,32 @@
     <div class="section-title" style="margin-top:24px;">⏰ 生存に必要な温暖値（時間別）</div>
     <div class="panel accent-blue">
       <div class="panel-title">何時時点で何度あれば9:00時点で生存できるか</div>
-      <div class="step-desc" style="margin-bottom:12px;">通常減少：<strong>6/時</strong>　08:30〜09:00：<strong>5倍速（15減少）</strong></div>
+      <div class="step-desc" style="margin-bottom:12px;">通常減少：<strong>6/時</strong>　08:30〜09:00：<strong>3倍速（9減少）</strong>　目標：9:00時点で1度以上</div>
       <table class="data-table">
         <thead><tr><th>時刻</th><th>必要な温暖値</th><th>備考</th></tr></thead>
         <tbody>
-          <tr><td>21:00</td><td style="color:var(--accent);font-weight:700;">84以上</td><td>寝る前の目安</td></tr>
-          <tr><td>22:00</td><td style="color:var(--accent);font-weight:700;">78以上</td><td></td></tr>
-          <tr><td>23:00</td><td style="color:var(--accent);font-weight:700;">72以上</td><td></td></tr>
-          <tr><td>00:00</td><td style="color:var(--accent);font-weight:700;">66以上</td><td></td></tr>
-          <tr><td>01:00</td><td style="color:var(--accent);font-weight:700;">60以上</td><td></td></tr>
-          <tr><td>02:00</td><td style="color:var(--accent);font-weight:700;">54以上</td><td></td></tr>
-          <tr><td>03:00</td><td style="color:var(--accent);font-weight:700;">48以上</td><td></td></tr>
-          <tr><td>04:00</td><td style="color:var(--accent);font-weight:700;">42以上</td><td></td></tr>
-          <tr><td>05:00</td><td style="color:var(--accent);font-weight:700;">36以上</td><td></td></tr>
-          <tr><td>06:00</td><td style="color:var(--accent);font-weight:700;">30以上</td><td></td></tr>
-          <tr><td>07:00</td><td style="color:var(--accent);font-weight:700;">24以上</td><td></td></tr>
-          <tr><td>08:00</td><td style="color:var(--accent);font-weight:700;">18以上</td><td></td></tr>
-          <tr><td>08:30</td><td style="color:var(--accent3);font-weight:700;">15以上</td><td>⚠️ ここから5倍速</td></tr>
-          <tr><td>09:00</td><td style="color:var(--green);font-weight:700;">0以上</td><td>✅ 生存判定</td></tr>
+          <tr><td>18:00</td><td style="color:var(--accent);font-weight:700;">97以上</td><td>夕方の目安</td></tr>
+          <tr><td>19:00</td><td style="color:var(--accent);font-weight:700;">91以上</td><td></td></tr>
+          <tr><td>20:00</td><td style="color:var(--accent);font-weight:700;">85以上</td><td></td></tr>
+          <tr><td>21:00</td><td style="color:var(--accent);font-weight:700;">79以上</td><td>寝る前の目安</td></tr>
+          <tr><td>22:00</td><td style="color:var(--accent);font-weight:700;">73以上</td><td></td></tr>
+          <tr><td>23:00</td><td style="color:var(--accent);font-weight:700;">67以上</td><td></td></tr>
+          <tr><td>00:00</td><td style="color:var(--accent);font-weight:700;">61以上</td><td></td></tr>
+          <tr><td>01:00</td><td style="color:var(--accent);font-weight:700;">55以上</td><td></td></tr>
+          <tr><td>02:00</td><td style="color:var(--accent);font-weight:700;">49以上</td><td></td></tr>
+          <tr><td>03:00</td><td style="color:var(--accent);font-weight:700;">43以上</td><td></td></tr>
+          <tr><td>04:00</td><td style="color:var(--accent);font-weight:700;">37以上</td><td></td></tr>
+          <tr><td>05:00</td><td style="color:var(--accent);font-weight:700;">31以上</td><td></td></tr>
+          <tr><td>06:00</td><td style="color:var(--accent);font-weight:700;">25以上</td><td></td></tr>
+          <tr><td>07:00</td><td style="color:var(--accent);font-weight:700;">19以上</td><td></td></tr>
+          <tr><td>08:00</td><td style="color:var(--accent);font-weight:700;">13以上</td><td></td></tr>
+          <tr><td>08:30</td><td style="color:var(--accent3);font-weight:700;">10以上</td><td>⚠️ ここから3倍速</td></tr>
+          <tr><td>09:00</td><td style="color:var(--green);font-weight:700;">1以上</td><td>✅ 生存判定</td></tr>
         </tbody>
       </table>
       <div class="alert alert-gold" style="margin-top:12px;margin-bottom:0;">
         <span class="alert-icon">💡</span>
-        <div>寝る前（21:00頃）に<strong>84以上</strong>あれば翌朝9:00の生存判定をクリアできる。ペアの相手に薪を送ってもらうと安心！</div>
+        <div>寝る前（21:00頃）に<strong>79以上</strong>あれば翌朝9:00の生存判定をクリアできる。ペアの相手に薪を送ってもらうと安心！</div>
       </div>
     </div>
 
@@ -1512,6 +1515,7 @@
   }
 
   // ===== 言語切り替え =====
+  const API_KEY = 'ここにAPIキーを貼る'; // sk-ant-...
 
   let currentLang = 'ja';
   const originalHTML = {};
@@ -1522,41 +1526,6 @@
     hk: '以下のHTMLを繁体字中国語（香港）に翻訳してください。香港で使われる広東語的な表現・用語を使用してください。HTMLタグ・クラス名・属性値・絵文字・数字・記号はそのまま保持し、テキスト内容のみ翻訳してください。翻訳済みHTMLのみ返してください。説明文は不要です。',
     tr: 'Aşağıdaki HTML\'i Türkçeye çevirin. HTML etiketleri, sınıf adları, özellik değerleri, emojiler, sayılar ve semboller olduğu gibi korunmalı, yalnızca metin içeriği çevrilmelidir. Yalnızca çevrilmiş HTML\'i döndürün, açıklama eklemeyin.'
   };
-const navTranslations = {
-    tw: {
-      '概要': '概要', 'スケジュール': '時程', '1日の行動': '每日行動',
-      '温暖値': '溫暖值', '飛行船': '飛行船', '拠点・領土': '據點・領土',
-      '採集・戦闘': '採集・戰鬥', '大事記': '大事記', 'クエスト': '任務',
-      '技術': '科技', '英霊殿': '英靈殿', '交換ショップ': '兌換商店'
-    },
-    hk: {
-      '概要': '概要', 'スケジュール': '時程', '1日の行動': '每日行動',
-      '温暖値': '暖度值', '飛行船': '飛行船', '拠点・領土': '據點・領土',
-      '採集・戦闘': '採集・戰鬥', '大事記': '大事記', 'クエスト': '任務',
-      '技術': '科技', '英霊殿': '英靈殿', '交換ショップ': '換領商店'
-    },
-    tr: {
-      '概要': 'Genel', 'スケジュール': 'Program', '1日の行動': 'Günlük',
-      '温暖値': 'Sıcaklık', '飛行船': 'Uçan Gemi', '拠点・領土': 'Üs・Toprak',
-      '採集・戦闘': 'Toplama・Savaş', '大事記': 'Kronik', 'クエスト': 'Görev',
-      '技術': 'Teknoloji', '英霊殿': 'Tapınak', '交換ショップ': 'Mağaza'
-    }
-  };
-
-  function updateNavLang(lang) {
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-      const emoji = btn.textContent.match(/^\S+/)?.[0] || '';
-      if (!btn.getAttribute('data-ja')) {
-        btn.setAttribute('data-ja', btn.textContent.replace(/^\S+\s*/, '').trim());
-      }
-      const key = btn.getAttribute('data-ja');
-      if (lang === 'ja') {
-        btn.textContent = emoji + ' ' + key;
-      } else if (navTranslations[lang]?.[key]) {
-        btn.textContent = emoji + ' ' + navTranslations[lang][key];
-      }
-    });
-  }
 
   const langCode = { tw: 'zh-TW', hk: 'zh-HK', tr: 'tr' };
 
@@ -1572,12 +1541,11 @@ const navTranslations = {
         if (el) el.innerHTML = originalHTML[id];
       });
       document.documentElement.lang = 'ja';
-      updateNavLang('ja');
       currentLang = 'ja';
       return;
     }
 
-const sectionIds = ['site-header','overview','schedule','daily','temp','ship','base','collect','daiji','quest','tech','shrine','shop'];
+    const sectionIds = ['overview','schedule','daily','temp','ship','base','collect','daiji','quest','tech','shrine','shop'];
     const overlay = document.getElementById('translateOverlay');
     const msg = document.getElementById('translateMsg');
     overlay.classList.add('show');
@@ -1596,18 +1564,15 @@ const sectionIds = ['site-header','overview','schedule','daily','temp','ship','b
           const el = document.getElementById(id);
           if (el && translatedHTML[lang][id]) el.innerHTML = translatedHTML[lang][id];
         });
-        updateNavLang(lang);
-    document.documentElement.lang = langCode[lang];
+        document.documentElement.lang = langCode[lang];
         currentLang = lang;
-        overlay.classList.remove('show');
-        document.querySelectorAll('.lang-btn').forEach(b => b.disabled = false);
         return;
       }
 
       translatedHTML[lang] = {};
 
       // 3セクションずつ翻訳
-      const chunkSize = 1;
+      const chunkSize = 3;
       for (let i = 0; i < sectionIds.length; i += chunkSize) {
         const chunk = sectionIds.slice(i, i + chunkSize);
         msg.textContent = `翻訳中... (${Math.min(i + chunkSize, sectionIds.length)}/${sectionIds.length})`;
@@ -1617,12 +1582,14 @@ const sectionIds = ['site-header','overview','schedule','daily','temp','ship','b
         ).join('\n');
 
         const response = await fetch('/api/translate', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ html: combinedHTML, lang })
-});
-const data = await response.json();
-const translatedText = data.translated || '';
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ html: combinedHTML, lang })
+        });
+
+        const data = await response.json();
+        const translatedText = data.translated || '';
+
         const parser = new DOMParser();
         const doc = parser.parseFromString('<div>' + translatedText + '</div>', 'text/html');
         chunk.forEach(id => {
@@ -1634,7 +1601,7 @@ const translatedText = data.translated || '';
           }
         });
       }
-updateNavLang(lang);
+
       document.documentElement.lang = langCode[lang];
       currentLang = lang;
 
@@ -1653,11 +1620,6 @@ updateNavLang(lang);
 
   // Google翻訳ウィジェット初期化（削除）
 
-  // ページ読み込み時にdata-ja属性を設定
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    const text = btn.textContent.replace(/^\S+\s*/, '').trim();
-    btn.setAttribute('data-ja', text);
-  });
 </script>
 
 </body>
