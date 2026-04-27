@@ -13,7 +13,9 @@ module.exports = async function handler(req, res) {
     };
 
     const targetLang = langMap[lang];
-
+console.log('DEEPL_API_KEY exists:', !!process.env.DEEPL_API_KEY);
+console.log('DEEPL_API_KEY length:', process.env.DEEPL_API_KEY?.length);
+console.log('lang:', lang);
     const response = await fetch('https://api-free.deepl.com/v2/translate', {
       method: 'POST',
       headers: {
