@@ -2,10 +2,8 @@ module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
-
   try {
     const { message, history } = req.body;
-
     const systemPrompt = `あなたはパズル＆コンクエストのロストシティイベントの専門アシスタントです。
 プレイヤーからの質問に日本語で答えてください。
 以下の知識をもとに回答してください：
@@ -20,37 +18,40 @@ module.exports = async function handler(req, res) {
 - ロストシティ技術：失われた工程書で研究。防寒I〜IIIで温暖値減少を軽減
 わからないことは「情報がないので確認してください」と答えてください。`;
 
-    const contents = [
+    const messages = [
       ...history.map(h => ({
-        role: h.role,
-        parts: [{ text: h.text }]
+        role: h.role === 'model' ? 'assistant' : 'user',
+        content: h.text
       })),
       {
         role: 'user',
-        parts: [{ text: message }]
+        content: message
       }
     ];
 
-    const response = await fetch(
-`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${process.env.GEMINI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: systemPrompt }] },
-          contents
-        })
-      }
-    );
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1024,
+        system: systemPrompt,
+        messages
+      })
+    });
 
     if (!response.ok) {
       const errText = await response.text();
-      console.error('Gemini error:', errText);
+      console.error('Claude error:', errText);
       return res.status(500).json({ error: errText });
     }
 
     const data = await response.json();
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || '回答できませんでした。';
+    const reply = data.content?.[0]?.text || '回答できませんでした。';
     res.status(200).json({ reply });
 
   } catch (err) {
